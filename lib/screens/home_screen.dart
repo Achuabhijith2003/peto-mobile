@@ -8,7 +8,7 @@ import 'owner_profile_screen.dart';
 import 'add_pet_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -77,7 +77,7 @@ Future<void> _loadData() async {
     final petProvider = Provider.of<PetProvider>(context);
     final currentOwner = ownerProvider.currentOwner;
 
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       const PetListScreen(),
       const OwnerProfileScreen(),
     ];
@@ -99,7 +99,7 @@ Future<void> _loadData() async {
               ? const Center(
                 child: Text('Please create an owner profile first'),
               )
-              : _pages[_selectedIndex],
+              : pages[_selectedIndex],
       floatingActionButton:
           _selectedIndex == 0
               ? FloatingActionButton(

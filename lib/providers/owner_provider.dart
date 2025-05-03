@@ -8,6 +8,7 @@ class OwnerProvider with ChangeNotifier {
   final String? _userId;
   Owner? _currentOwner;
   bool _isLoading = false;
+  String email = '';
 
   OwnerProvider(this._userId) {
     if (_userId != null) {
@@ -116,5 +117,34 @@ class OwnerProvider with ChangeNotifier {
       notifyListeners();
       rethrow;
     }
+  
   }
+
+Future<Owner?> fetchOwnerProfile() async {
+  if (_userId == null) return null;
+
+  try {
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_userId)
+        .get();
+
+    if (doc.exists) {
+      final data = doc.data()!;
+      return Owner(
+        id: _userId,
+        name: data['name'] ?? '',
+        email: data['email'] ?? '',
+        phone: data['phone'] ?? '',
+        address: data['address'] ?? '',
+        imageUrl: data['photoURL'] ?? '',
+      );
+    } else {
+      return null; // Document does not exist
+    }
+  } catch (error) {
+    rethrow; // Handle errors appropriately
+  }
+}
+
 }

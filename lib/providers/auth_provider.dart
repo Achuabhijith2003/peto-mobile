@@ -31,14 +31,17 @@ class AuthProvider with ChangeNotifier {
         email: email,
         password: password,
       );
-      
+
       // Create user profile in Firestore
-      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-        'name': name,
-        'email': email,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-      
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
+            'name': name,
+            'email': email,
+            'createdAt': FieldValue.serverTimestamp(),
+          });
+
       // Update display name
       await userCredential.user!.updateDisplayName(name);
     } catch (error) {
@@ -48,10 +51,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signIn(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (error) {
       rethrow;
     }
@@ -60,36 +60,38 @@ class AuthProvider with ChangeNotifier {
   Future<void> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      
+
       if (googleUser == null) {
         return;
       }
-      
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      
+
       final userCredential = await _auth.signInWithCredential(credential);
-      
+
       // Check if this is a new user
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
-      
+      final userDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .get();
+
       if (!userDoc.exists) {
         // Create user profile in Firestore for new Google sign-ins
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userCredential.user!.uid)
             .set({
-          'name': userCredential.user!.displayName,
-          'email': userCredential.user!.email,
-          'photoURL': userCredential.user!.photoURL,
-          'createdAt': FieldValue.serverTimestamp(),
-        });
+              'name': userCredential.user!.displayName,
+              'email': userCredential.user!.email,
+              'photoURL': userCredential.user!.photoURL,
+              'createdAt': FieldValue.serverTimestamp(),
+            });
       }
     } catch (error) {
       rethrow;
@@ -116,26 +118,26 @@ class AuthProvider with ChangeNotifier {
   Future<void> updateUserProfile({String? name, String? photoURL}) async {
     try {
       if (_user == null) return;
-      
+
       Map<String, dynamic> updates = {};
-      
+
       if (name != null && name.isNotEmpty) {
         await _user!.updateDisplayName(name);
         updates['name'] = name;
       }
-      
+
       if (photoURL != null) {
         await _user!.updatePhotoURL(photoURL);
         updates['photoURL'] = photoURL;
       }
-      
+
       if (updates.isNotEmpty) {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(_user!.uid)
             .update(updates);
       }
-      
+
       notifyListeners();
     } catch (error) {
       rethrow;

@@ -8,7 +8,7 @@ import 'vaccination_screen.dart';
 class PetDetailScreen extends StatelessWidget {
   final String petId;
 
-  const PetDetailScreen({Key? key, required this.petId}) : super(key: key);
+  const PetDetailScreen({super.key, required this.petId});
 
   @override
   Widget build(BuildContext context) {

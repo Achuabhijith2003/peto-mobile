@@ -8,7 +8,7 @@ import '../models/pet.dart';
 import 'package:uuid/uuid.dart';
 
 class AddPetScreen extends StatefulWidget {
-  const AddPetScreen({Key? key}) : super(key: key);
+  const AddPetScreen({super.key});
 
   @override
   State<AddPetScreen> createState() => _AddPetScreenState();

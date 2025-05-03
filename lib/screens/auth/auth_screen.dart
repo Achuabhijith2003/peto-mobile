@@ -6,7 +6,7 @@ import 'forgot_password_screen.dart';
 enum AuthMode { signUp, signIn }
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({Key? key}) : super(key: key);
+  const AuthScreen({super.key});
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -117,6 +117,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    
 
     return Scaffold(
       body: SafeArea(
@@ -309,7 +310,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                   icon: Image.asset(
-                    'assets/images/google_sign.png',
+                    'assets/images/google_logo.png',
                     height: 24,
                   ),
                   label: const Text('Continue with Google'),

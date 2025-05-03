@@ -6,7 +6,7 @@ import '../models/pet.dart';
 import 'pet_detail_screen.dart';
 
 class PetListScreen extends StatelessWidget {
-  const PetListScreen({Key? key}) : super(key: key);
+  const PetListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class PetListScreen extends StatelessWidget {
 class PetCard extends StatelessWidget {
   final Pet pet;
 
-  const PetCard({Key? key, required this.pet}) : super(key: key);
+  const PetCard({super.key, required this.pet});
 
   @override
   Widget build(BuildContext context) {

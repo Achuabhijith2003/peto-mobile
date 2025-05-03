@@ -7,7 +7,7 @@ import '../models/pet.dart';
 class VaccinationScreen extends StatefulWidget {
   final String petId;
 
-  const VaccinationScreen({Key? key, required this.petId}) : super(key: key);
+  const VaccinationScreen({super.key, required this.petId});
 
   @override
   State<VaccinationScreen> createState() => _VaccinationScreenState();
