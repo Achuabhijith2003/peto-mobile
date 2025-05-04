@@ -27,7 +27,12 @@ class AuthProvider with ChangeNotifier {
     });
   }
 
-  Future<void> signUp(String email, String password, String name) async {
+  Future<void> signUp(
+    String email,
+    String password,
+    String firstname,
+    String secondname,
+  ) async {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -39,13 +44,14 @@ class AuthProvider with ChangeNotifier {
           .collection('users')
           .doc(userCredential.user!.uid)
           .set({
-            'name': name,
+            'firstname': firstname,
+            'secondname': secondname,
             'email': email,
             'createdAt': FieldValue.serverTimestamp(),
           });
 
       // Update display name
-      await userCredential.user!.updateDisplayName(name);
+      await userCredential.user!.updateDisplayName('$firstname $secondname');
     } catch (error) {
       rethrow;
     }

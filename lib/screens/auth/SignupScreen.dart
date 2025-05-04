@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:peto/color.dart';
 import 'package:peto/image.dart';
+import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/screens/auth/LoginScreen.dart';
 import 'package:peto/screens/components/button.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SignUpScreen extends StatelessWidget {
@@ -15,6 +17,54 @@ class SignUpScreen extends StatelessWidget {
   TextEditingController passwordC = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    Future<void> _sinupsubmit() async {
+      try {
+        if (firstName.text.isEmpty ||
+            listName.text.isEmpty ||
+            emailC.text.isEmpty ||
+            passwordC.text.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Please fill all fields'),
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+          return;
+        }
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        await authProvider.signUp(
+          emailC.text.trim(),
+          passwordC.text.trim(),
+          firstName.text.trim(),
+          listName.text.trim(),
+        );
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (ctx) => SignInScreen()));
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Sign up failed: ${error.toString()}'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      } finally {}
+    }
+
+    Future<void> _signInWithGoogle() async {
+      try {
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        await authProvider.signInWithGoogle();
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Google sign-in failed: ${error.toString()}'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      } finally {}
+    }
+
     return Scaffold(
       backgroundColor: AppColor.kWhite,
       appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
@@ -164,7 +214,9 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     PrimaryButton(
                       elevation: 0,
-                      onTap: () {},
+                      onTap: () {
+                        _sinupsubmit();
+                      },
                       text: 'Create Account',
                       bgColor: AppColor.kPrimary,
                       borderRadius: 20,
@@ -207,7 +259,9 @@ class SignUpScreen extends StatelessWidget {
                         height: 56,
                         textColor: AppColor.kGrayscaleDark100,
                         width: 260,
-                        onTap: () {},
+                        onTap: () {
+                          _signInWithGoogle();
+                        },
                         borderRadius: 24,
                         bgColor: AppColor.kBackground.withOpacity(0.3),
                         text: 'Continue with Google',
