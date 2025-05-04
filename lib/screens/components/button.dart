@@ -11,6 +11,7 @@ class PrimaryButton extends StatefulWidget {
   final double? fontSize;
   final IconData? iconData;
   final Color? textColor, bgColor;
+  final bool? isloading;
   const PrimaryButton({
     Key? key,
     required this.onTap,
@@ -23,6 +24,7 @@ class PrimaryButton extends StatefulWidget {
     required this.textColor,
     required this.bgColor,
     this.iconData,
+    this.isloading = false,
   }) : super(key: key);
 
   @override
@@ -79,18 +81,28 @@ class _PrimaryButtonState extends State<PrimaryButton>
               color: widget.bgColor,
               borderRadius: BorderRadius.circular(widget.borderRadius!),
             ),
-            child: Text(
-              widget.text,
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColor.kWhite,
-              ).copyWith(
-                color: widget.textColor,
-                fontWeight: FontWeight.w500,
-                fontSize: widget.fontSize,
-              ),
-            ),
+            child:
+                (widget.isloading ?? false)
+                    ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                    : Text(
+                      widget.text,
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.kWhite,
+                      ).copyWith(
+                        color: widget.textColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: widget.fontSize,
+                      ),
+                    ),
           ),
         ),
       ),
@@ -193,8 +205,6 @@ class _SecondaryButtonState extends State<SecondaryButton>
     );
   }
 }
-
-
 
 class PrimaryTextButton extends StatelessWidget {
   const PrimaryTextButton({

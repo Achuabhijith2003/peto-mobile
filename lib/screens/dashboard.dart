@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peto/providers/auth_provider.dart';
-import 'package:peto/screens/auth/LoginScreen.dart';
+import 'package:peto/screens/auth/loginScreen.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {

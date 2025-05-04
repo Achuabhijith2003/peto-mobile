@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/pet_provider.dart';
@@ -20,34 +21,92 @@ class PetListScreen extends StatelessWidget {
 
     final pets = petProvider.getPetsByOwner(currentOwner.id);
 
-    return pets.isEmpty
-        ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/empty_pets.png',
-                height: 200,
-                width: 200,
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          expandedHeight: 200.0,
+          flexibleSpace: FlexibleSpaceBar(
+            title: const Text(
+              'SliverAppBar',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.2,
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'No pets added yet',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            background: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                'https://images.joseartgallery.com/100736/what-kind-of-art-is-popular-right-now.jpg',
+                fit: BoxFit.cover,
               ),
-              const SizedBox(height: 10),
-              const Text(
-                'Tap the + button to add your first pet',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
+            ),
           ),
-        )
-        : ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: pets.length,
-          itemBuilder: (ctx, i) => PetCard(pet: pets[i]),
-        );
+          floating: false,
+          pinned: true,
+          snap: false,
+          elevation: 10.0,
+          backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(
+              icon: const Icon(CupertinoIcons.search),
+              onPressed: () {
+                // Search action
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.more_vert),
+              onPressed: () {
+                // More options
+              },
+            ),
+          ],
+        ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 200,
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                pets.isEmpty
+                    ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/empty_pets.png',
+                            height: 200,
+                            width: 200,
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'No pets added yet',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Tap the + button to add your first pet',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    )
+                    : ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: pets.length,
+                      itemBuilder: (ctx, i) => PetCard(pet: pets[i]),
+                    );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 

@@ -5,20 +5,34 @@ import 'package:peto/color.dart';
 import 'package:peto/image.dart';
 import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/screens/auth/SignupScreen.dart';
+import 'package:peto/screens/auth/forgot_password_screen.dart';
 import 'package:peto/screens/components/button.dart';
-import 'package:peto/screens/dashboard.dart';
+import 'package:peto/screens/navbar.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   SignInScreen({super.key});
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailC = TextEditingController();
+
   TextEditingController passwordC = TextEditingController();
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     // submit the login form
     Future<void> submit() async {
+      setState(() {
+        _isLoading = true;
+      });
+
       String errorMessage = "";
       print("Login button pressed");
       try {
@@ -38,7 +52,7 @@ class SignInScreen extends StatelessWidget {
         if (authProvider.isAuth) {
           // Navigate to the home screen or dashboard
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const Dashboard()),
+            MaterialPageRoute(builder: (context) => const CustomNavBarCurved()),
           );
         } else {
           errorMessage = 'Authentication failed';
@@ -50,6 +64,9 @@ class SignInScreen extends StatelessWidget {
           );
         }
       } catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
         errorMessage = 'Authentication failed';
 
         if (error.toString().contains('email-already-in-use')) {
@@ -70,7 +87,11 @@ class SignInScreen extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
-      } finally {}
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
 
     Future<void> _signInWithGoogle() async {
@@ -175,7 +196,13 @@ class SignInScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     PrimaryTextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => ForgotPasswordScreen(),
+                          ),
+                        );
+                      },
                       title: 'Forgot Password?',
                       textStyle: const TextStyle(),
                     ),
@@ -187,7 +214,7 @@ class SignInScreen extends StatelessWidget {
                     PrimaryButton(
                       elevation: 0,
                       onTap: () {
-                        submit();
+                        _isLoading ? null : submit();
                       },
                       text: 'LogIn',
                       bgColor: AppColor.kPrimary,
@@ -196,6 +223,7 @@ class SignInScreen extends StatelessWidget {
                       width: 327,
                       textColor: AppColor.kWhite,
                       fontSize: 14,
+                      isloading: _isLoading,
                     ),
                     const SizedBox(height: 10),
                     Padding(

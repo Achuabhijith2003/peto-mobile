@@ -104,14 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return Scaffold(
-      body:
-          ownerProvider.isLoading || petProvider.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : currentOwner == null
-              ? const Center(
-                child: Text('Please create an owner profile first'),
-              )
-              : pages[_selectedIndex],
+      body: pages[_selectedIndex],
       floatingActionButton:
           _selectedIndex == 0
               ? FloatingActionButton(

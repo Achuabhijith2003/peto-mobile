@@ -3,7 +3,7 @@ import 'package:peto/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:peto/image.dart';
-import 'package:peto/screens/auth/LoginScreen.dart';
+import 'package:peto/screens/auth/loginScreen.dart';
 import 'package:peto/screens/components/button.dart';
 
 class OnBoardingScreen extends StatefulWidget {

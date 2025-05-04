@@ -4,20 +4,35 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:peto/color.dart';
 import 'package:peto/image.dart';
 import 'package:peto/providers/auth_provider.dart';
-import 'package:peto/screens/auth/LoginScreen.dart';
+import 'package:peto/screens/auth/loginScreen.dart';
 import 'package:peto/screens/components/button.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController firstName = TextEditingController();
+
   TextEditingController listName = TextEditingController();
+
   TextEditingController emailC = TextEditingController();
+
   TextEditingController passwordC = TextEditingController();
+
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     Future<void> _sinupsubmit() async {
+      setState(() {
+        _isLoading = true;
+      });
       try {
         if (firstName.text.isEmpty ||
             listName.text.isEmpty ||
@@ -42,13 +57,20 @@ class SignUpScreen extends StatelessWidget {
           context,
         ).push(MaterialPageRoute(builder: (ctx) => SignInScreen()));
       } catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Sign up failed: ${error.toString()}'),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
-      } finally {}
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
 
     Future<void> _signInWithGoogle() async {
@@ -215,7 +237,7 @@ class SignUpScreen extends StatelessWidget {
                     PrimaryButton(
                       elevation: 0,
                       onTap: () {
-                        _sinupsubmit();
+                        _isLoading ? null : _sinupsubmit();
                       },
                       text: 'Create Account',
                       bgColor: AppColor.kPrimary,
