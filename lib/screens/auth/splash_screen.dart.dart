@@ -3,7 +3,6 @@ import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/screens/home_screen.dart';
 import 'package:peto/screens/onboardings/onBoardingScreen.dart';
 import 'package:provider/provider.dart';
-import 'auth_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

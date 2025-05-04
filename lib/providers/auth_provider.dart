@@ -16,6 +16,7 @@ class AuthProvider with ChangeNotifier {
   User? get user => _user;
   bool get isLoading => _isLoading;
   bool get isAuth => _user != null;
+  bool get isnewuser => true;
 
   Future<void> _initAuth() async {
     _auth.authStateChanges().listen((User? user) {

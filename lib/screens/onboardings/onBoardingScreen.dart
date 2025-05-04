@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:peto/screens/onboardings/color.dart';
+import 'package:peto/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:peto/screens/onboardings/image.dart';
+import 'package:peto/image.dart';
+import 'package:peto/screens/auth/LoginScreen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -94,6 +95,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               elevation: 0,
               onTap: () {
                 if (_currentIndex == onBoardinglist.length - 1) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignInScreen()),
+                  );
+                } else if (_currentIndex == 0) {
+                  _pageController1.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.fastOutSlowIn,
+                  );
+                  _pageController2.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.fastOutSlowIn,
+                  );
                 } else {
                   _pageController1.nextPage(
                     duration: const Duration(milliseconds: 500),
