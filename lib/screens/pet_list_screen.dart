@@ -13,41 +13,41 @@ class PetListScreen extends StatelessWidget {
     final ownerProvider = Provider.of<OwnerProvider>(context);
     final petProvider = Provider.of<PetProvider>(context);
     final currentOwner = ownerProvider.currentOwner;
-    
+
     if (currentOwner == null) {
       return const Center(child: Text('Please create an owner profile first'));
     }
-    
+
     final pets = petProvider.getPetsByOwner(currentOwner.id);
 
     return pets.isEmpty
         ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/empty_pets.png',
-                  height: 200,
-                  width: 200,
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'No pets added yet',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Tap the + button to add your first pet',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-          )
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/empty_pets.png',
+                height: 200,
+                width: 200,
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'No pets added yet',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Tap the + button to add your first pet',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+        )
         : ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: pets.length,
-            itemBuilder: (ctx, i) => PetCard(pet: pets[i]),
-          );
+          padding: const EdgeInsets.all(16),
+          itemCount: pets.length,
+          itemBuilder: (ctx, i) => PetCard(pet: pets[i]),
+        );
   }
 }
 
@@ -60,9 +60,12 @@ class PetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final upcomingVaccinations = pet.upcomingVaccinations;
-    final nextVaccination = upcomingVaccinations.isNotEmpty
-        ? upcomingVaccinations.reduce((a, b) => a.date.isBefore(b.date) ? a : b)
-        : null;
+    final nextVaccination =
+        upcomingVaccinations.isNotEmpty
+            ? upcomingVaccinations.reduce(
+              (a, b) => a.date.isBefore(b.date) ? a : b,
+            )
+            : null;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
@@ -71,29 +74,30 @@ class PetCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (ctx) => PetDetailScreen(petId: pet.id),
-            ),
+            MaterialPageRoute(builder: (ctx) => PetDetailScreen(petId: pet.id)),
           );
         },
         borderRadius: BorderRadius.circular(12),
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-              child: pet.imageUrl.isNotEmpty
-                  ? Image.network(
-                      pet.imageUrl,
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset(
-                      'assets/images/pet_placeholder.png',
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12),
+              ),
+              child:
+                  pet.imageUrl.isNotEmpty
+                      ? Image.network(
+                        pet.imageUrl,
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                      : Image.asset(
+                        'assets/images/pet_placeholder.png',
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
@@ -129,10 +133,7 @@ class PetCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    pet.breed,
-                    style: theme.textTheme.bodyLarge,
-                  ),
+                  Text(pet.breed, style: theme.textTheme.bodyLarge),
                   const SizedBox(height: 16),
                   if (nextVaccination != null) ...[
                     Row(
@@ -163,9 +164,7 @@ class PetCard extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           '${nextVaccination.date.day}/${nextVaccination.date.month}/${nextVaccination.date.year}',
-                          style: TextStyle(
-                            color: theme.colorScheme.secondary,
-                          ),
+                          style: TextStyle(color: theme.colorScheme.secondary),
                         ),
                       ],
                     ),

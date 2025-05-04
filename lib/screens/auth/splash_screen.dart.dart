@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/screens/home_screen.dart';
+import 'package:peto/screens/onboardings/onBoardingScreen.dart';
 import 'package:provider/provider.dart';
 import 'auth_screen.dart';
 
@@ -10,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-    
+
     if (authProvider.isLoading) {
       return Scaffold(
         body: Center(
@@ -29,11 +30,12 @@ class SplashScreen extends StatelessWidget {
         ),
       );
     }
-    
+
     if (authProvider.isAuth) {
       return const HomeScreen();
     } else {
-      return const AuthScreen();
+      // return const AuthScreen();
+      return const OnBoardingScreen();
     }
   }
 }

@@ -45,6 +45,8 @@ dependencies:
   cloud_firestore: ^5.6.7
   firebase_storage: ^12.4.5
   google_sign_in: ^6.3.0
+  dots_indicator: ^4.0.1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

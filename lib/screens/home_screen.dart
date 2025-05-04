@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peto/screens/dashboard.dart';
 import 'package:provider/provider.dart';
 import '../providers/pet_provider.dart';
 import '../providers/owner_provider.dart';
@@ -27,23 +28,36 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-Future<void> _loadData() async {
-  WidgetsBinding.instance.addPostFrameCallback((_) async {
-    final ownerProvider = Provider.of<OwnerProvider>(context, listen: false);
-    final petProvider = Provider.of<PetProvider>(context, listen: false);
+  late Future<void> _future;
 
-    await ownerProvider.loadOwnerProfile();
-    await petProvider.loadPets();
+  @override
+  void initState() {
+    super.initState();
+    _future = _loadData();
+  }
 
-    if (ownerProvider.currentOwner == null) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (ctx) => const OwnerProfileScreen(isNewOwner: true),
-        ),
-      );
-    }
-  });
-}
+  Future<void> _loadData() async {
+    await Future.delayed(Duration(seconds: 2));
+    if (!mounted) return; // Check if the widget is still mounted
+    setState(() {
+      // Update state safely
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final ownerProvider = Provider.of<OwnerProvider>(context, listen: false);
+      final petProvider = Provider.of<PetProvider>(context, listen: false);
+
+      await ownerProvider.loadOwnerProfile();
+      await petProvider.loadPets();
+
+      if (ownerProvider.currentOwner == null) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => const OwnerProfileScreen(isNewOwner: true),
+          ),
+        );
+      }
+    });
+  }
 
   Future<void> _signOut() async {
     final confirmed = await showDialog<bool>(
@@ -72,26 +86,24 @@ Future<void> _loadData() async {
   }
 
   @override
+  void dispose() {
+    // Cancel any ongoing operations or listeners
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ownerProvider = Provider.of<OwnerProvider>(context);
     final petProvider = Provider.of<PetProvider>(context);
     final currentOwner = ownerProvider.currentOwner;
 
     final List<Widget> pages = [
+      const Dashboard(),
       const PetListScreen(),
       const OwnerProfileScreen(),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _selectedIndex == 0 ? 'My Pets' : 'My Profile',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(icon: const Icon(Icons.logout), onPressed: _signOut),
-        ],
-      ),
       body:
           ownerProvider.isLoading || petProvider.isLoading
               ? const Center(child: CircularProgressIndicator())
@@ -119,6 +131,10 @@ Future<void> _loadData() async {
           });
         },
         items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.space_dashboard_rounded),
+            label: 'Dashboard',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Pets'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],

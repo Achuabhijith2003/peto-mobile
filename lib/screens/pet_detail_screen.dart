@@ -92,7 +92,7 @@ class PetDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Breed: ${pet.breed}',
+                    'Breed/Type: ${pet.breed}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 4),
