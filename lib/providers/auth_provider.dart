@@ -8,6 +8,7 @@ class AuthProvider with ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   User? _user;
   bool _isLoading = true;
+  bool? _isNewUser;
 
   AuthProvider() {
     _initAuth();
@@ -16,7 +17,7 @@ class AuthProvider with ChangeNotifier {
   User? get user => _user;
   bool get isLoading => _isLoading;
   bool get isAuth => _user != null;
-  bool get isnewuser => true;
+  bool get isnewUser => _isNewUser == true;
 
   Future<void> _initAuth() async {
     _auth.authStateChanges().listen((User? user) {
@@ -52,6 +53,8 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signIn(String email, String password) async {
     try {
+      _isNewUser = false;
+      notifyListeners();
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (error) {
       rethrow;
@@ -60,6 +63,8 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signInWithGoogle() async {
     try {
+      _isNewUser = false;
+      notifyListeners();
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
@@ -101,6 +106,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signOut() async {
     try {
+      _isNewUser = false;
       await _googleSignIn.signOut();
       await _auth.signOut();
     } catch (error) {

@@ -3,121 +3,111 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:peto/color.dart';
 import 'package:peto/image.dart';
-import 'package:peto/providers/auth_provider.dart';
-import 'package:peto/screens/auth/SignupScreen.dart';
+import 'package:peto/screens/auth/LoginScreen.dart';
 import 'package:peto/screens/components/button.dart';
-import 'package:peto/screens/dashboard.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class SignInScreen extends StatelessWidget {
-  SignInScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({super.key});
+  TextEditingController firstName = TextEditingController();
+  TextEditingController listName = TextEditingController();
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    // submit the login form
-    Future<void> submit() async {
-      String errorMessage = "";
-      print("Login button pressed");
-      try {
-        if (emailC.text.isEmpty || passwordC.text.isEmpty) {
-          errorMessage = 'Please fill in all fields';
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(errorMessage),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-          );
-          return;
-        }
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
-        await authProvider.signIn(emailC.text.trim(), passwordC.text);
-        if (authProvider.isAuth) {
-          // Navigate to the home screen or dashboard
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const Dashboard()),
-          );
-        } else {
-          errorMessage = 'Authentication failed';
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(errorMessage),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-          );
-        }
-      } catch (error) {
-        errorMessage = 'Authentication failed';
-
-        if (error.toString().contains('email-already-in-use')) {
-          errorMessage = 'This email is already in use';
-        } else if (error.toString().contains('invalid-email')) {
-          errorMessage = 'Invalid email address';
-        } else if (error.toString().contains('user-not-found')) {
-          errorMessage = 'User not found';
-        } else if (error.toString().contains('wrong-password')) {
-          errorMessage = 'Incorrect password';
-        } else if (error.toString().contains('weak-password')) {
-          errorMessage = 'Password is too weak';
-        }
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-      } finally {}
-    }
-
-    Future<void> _signInWithGoogle() async {
-      try {
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        await authProvider.signInWithGoogle();
-      } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Google sign-in failed: ${error.toString()}'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-      } finally {}
-    }
-
     return Scaffold(
       backgroundColor: AppColor.kWhite,
-      // appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 17),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: SizedBox(
             width: 327,
             child: Column(
               children: [
-                Image.asset(ImagesPath.kappicon, width: 327, height: 200),
-                const SizedBox(height: 10),
                 Text(
-                  'Hi, Welcome Back! 👋',
+                  'Create Account',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                  ).copyWith(color: AppColor.kGrayscaleDark100, fontSize: 20),
+                  ).copyWith(
+                    color: AppColor.kGrayscaleDark100,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'We happy to see you. Sign In to your account',
+                  'We happy to see you. Sign Up to your account',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppColor.kWhite,
-                  ).copyWith(color: AppColor.kGrayscale40, fontSize: 14),
+                  ).copyWith(
+                    color: AppColor.kGrayscale40,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
                 ),
-                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'First Name',
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.kWhite,
+                          ).copyWith(
+                            color: AppColor.kGrayscaleDark100,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        PrimaryTextFormField(
+                          borderRadius: BorderRadius.circular(24),
+                          hintText: '',
+                          controller: firstName,
+                          width: 155,
+                          height: 52,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Last Name',
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.kWhite,
+                          ).copyWith(
+                            color: AppColor.kGrayscaleDark100,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        PrimaryTextFormField(
+                          borderRadius: BorderRadius.circular(24),
+                          hintText: '',
+                          controller: listName,
+                          width: 155,
+                          height: 52,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -133,18 +123,17 @@ class SignInScreen extends StatelessWidget {
                         fontSize: 14,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 7),
                     PrimaryTextFormField(
                       borderRadius: BorderRadius.circular(24),
                       hintText: 'example@gmail.com',
                       controller: emailC,
                       width: 327,
                       height: 52,
-                      keyboardType: TextInputType.emailAddress,
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 15),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -170,80 +159,64 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    PrimaryTextButton(
-                      onPressed: () {},
-                      title: 'Forgot Password?',
-                      textStyle: const TextStyle(),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 28),
                 Column(
                   children: [
                     PrimaryButton(
                       elevation: 0,
-                      onTap: () {
-                        submit();
-                      },
-                      text: 'LogIn',
+                      onTap: () {},
+                      text: 'Create Account',
                       bgColor: AppColor.kPrimary,
                       borderRadius: 20,
                       height: 46,
                       width: 327,
                       textColor: AppColor.kWhite,
-                      fontSize: 14,
                     ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: CustomRichText(
-                        title: 'Don’t have an account?',
-                        subtitle: ' Create here',
-                        onTab: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (ctx) => SignUpScreen()),
-                          );
-                        },
-                        subtitleTextStyle: GoogleFonts.plusJakartaSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColor.kWhite,
-                        ).copyWith(
-                          color: AppColor.kPrimary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
+                    const SizedBox(height: 20),
+                    CustomRichText(
+                      title: 'Already have an account? ',
+                      subtitle: 'Log In',
+                      onTab: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (ctx) => SignInScreen()),
+                        );
+                      },
+                      subtitleTextStyle: GoogleFonts.plusJakartaSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.kWhite,
+                      ).copyWith(
+                        color: AppColor.kPrimary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 30),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 45),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
                     children: [
-                      const DividerRow(title: 'Or Sign In with'),
-                      const SizedBox(height: 20),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: DividerRow(title: 'Or Sign Up with'),
+                      ),
+                      const SizedBox(height: 24),
                       SecondaryButton(
                         height: 56,
                         textColor: AppColor.kGrayscaleDark100,
-                        width: 280,
-                        onTap: () {
-                          _signInWithGoogle();
-                        },
+                        width: 260,
+                        onTap: () {},
                         borderRadius: 24,
-                        bgColor: AppColor.kBackground2,
+                        bgColor: AppColor.kBackground.withOpacity(0.3),
                         text: 'Continue with Google',
                         icons: ImagesPath.kGoogleIcon,
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 23),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   child: TermsAndPrivacyText(
@@ -253,7 +226,6 @@ class SignInScreen extends StatelessWidget {
                     title4: ' Conditions of Use',
                   ),
                 ),
-                const SizedBox(height: 24),
               ],
             ),
           ),

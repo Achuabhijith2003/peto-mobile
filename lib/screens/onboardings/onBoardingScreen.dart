@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:peto/image.dart';
 import 'package:peto/screens/auth/LoginScreen.dart';
+import 'package:peto/screens/components/button.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -40,7 +41,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               scrollDirection: Axis.horizontal,
               itemCount: onBoardinglist.length,
               physics: const BouncingScrollPhysics(),
-              controller: _pageController1 ?? _pageController2,
+              controller: _pageController1,
               onPageChanged: (index) {
                 setState(() {
                   _currentIndex = index;
@@ -75,7 +76,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               scrollDirection: Axis.horizontal,
               itemCount: onBoardinglist.length,
               physics: const BouncingScrollPhysics(),
-              controller: _pageController2 ?? _pageController1,
+              controller: _pageController2,
               onPageChanged: (index) {
                 setState(() {
                   _currentIndex = index;
@@ -131,102 +132,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class PrimaryButton extends StatefulWidget {
-  final VoidCallback onTap;
-  final String text;
-  final double? width;
-  final double? height;
-  final double? borderRadius, elevation;
-  final double? fontSize;
-  final IconData? iconData;
-  final Color? textColor, bgColor;
-  const PrimaryButton({
-    super.key,
-    required this.onTap,
-    required this.text,
-    this.width,
-    this.height,
-    this.elevation = 5,
-    this.borderRadius,
-    this.fontSize,
-    required this.textColor,
-    required this.bgColor,
-    this.iconData,
-  });
-
-  @override
-  State<PrimaryButton> createState() => _PrimaryButtonState();
-}
-
-class _PrimaryButtonState extends State<PrimaryButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  final Duration _animationDuration = const Duration(milliseconds: 300);
-  final Tween<double> _tween = Tween<double>(begin: 1.0, end: 0.95);
-  @override
-  void initState() {
-    _controller = AnimationController(vsync: this, duration: _animationDuration)
-      ..addListener(() {
-        setState(() {});
-      });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        _controller.forward().then((_) {
-          _controller.reverse();
-        });
-        widget.onTap();
-      },
-      child: ScaleTransition(
-        scale: _tween.animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: Curves.easeOut,
-            reverseCurve: Curves.easeIn,
-          ),
-        ),
-        child: Card(
-          elevation: widget.elevation ?? 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius!),
-          ),
-          child: Container(
-            height: widget.height ?? 55,
-            alignment: Alignment.center,
-            width: widget.width ?? double.maxFinite,
-            decoration: BoxDecoration(
-              color: widget.bgColor,
-              borderRadius: BorderRadius.circular(widget.borderRadius!),
-            ),
-            child: Text(
-              widget.text,
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColor.kWhite,
-              ).copyWith(
-                color: widget.textColor,
-                fontWeight: FontWeight.w500,
-                fontSize: widget.fontSize,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
