@@ -6,6 +6,7 @@ import 'firebase_options.dart';
 import 'providers/pet_provider.dart';
 import 'providers/owner_provider.dart';
 import 'providers/auth_provider.dart';
+import 'providers/internet_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => InternetProvider()),
         ChangeNotifierProxyProvider<AuthProvider, PetProvider>(
           create: (_) => PetProvider(null),
           update: (_, auth, __) => PetProvider(auth.user?.uid),

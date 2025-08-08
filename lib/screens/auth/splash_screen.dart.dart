@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/screens/auth/loginScreen.dart';
-import 'package:peto/screens/home_screen.dart';
 import 'package:peto/screens/navbar.dart';
 import 'package:peto/screens/onboardings/onBoardingScreen.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +33,6 @@ class SplashScreen extends StatelessWidget {
 
     if (authProvider.isAuth) {
       return const CustomNavBarCurved();
-      ;
     } else if (authProvider.isnewUser) {
       // return const AuthScreen();
       return const OnBoardingScreen();

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:peto/color.dart';
-import 'package:peto/image.dart';
+import 'package:peto/utils/image.dart';
+import 'package:peto/utils/color.dart';
 import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/screens/auth/SignupScreen.dart';
 import 'package:peto/screens/auth/forgot_password_screen.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SignInScreen extends StatefulWidget {
-  SignInScreen({super.key});
+  const SignInScreen({super.key});
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -94,7 +94,7 @@ class _SignInScreenState extends State<SignInScreen> {
       }
     }
 
-    Future<void> _signInWithGoogle() async {
+    Future<void> signInWithGoogle() async {
       try {
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
         await authProvider.signInWithGoogle();
@@ -261,7 +261,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         textColor: AppColor.kGrayscaleDark100,
                         width: 280,
                         onTap: () {
-                          _signInWithGoogle();
+                          signInWithGoogle();
                         },
                         borderRadius: 24,
                         bgColor: AppColor.kBackground2,
@@ -433,13 +433,13 @@ class PasswordTextField extends StatefulWidget {
   final TextEditingController controller;
   final BorderRadiusGeometry borderRadius;
   const PasswordTextField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.height,
     required this.controller,
     required this.width,
     required this.borderRadius,
-  }) : super(key: key);
+  });
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
 }

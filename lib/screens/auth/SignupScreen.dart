@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:peto/color.dart';
-import 'package:peto/image.dart';
+import 'package:peto/utils/image.dart';
+import 'package:peto/utils/color.dart';
 import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/screens/auth/loginScreen.dart';
 import 'package:peto/screens/components/button.dart';
@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({super.key});
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _sinupsubmit() async {
+    Future<void> sinupsubmit() async {
       setState(() {
         _isLoading = true;
       });
@@ -73,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     }
 
-    Future<void> _signInWithGoogle() async {
+    Future<void> signInWithGoogle() async {
       try {
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
         await authProvider.signInWithGoogle();
@@ -237,7 +237,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     PrimaryButton(
                       elevation: 0,
                       onTap: () {
-                        _isLoading ? null : _sinupsubmit();
+                        _isLoading ? null : sinupsubmit();
                       },
                       text: 'Create Account',
                       bgColor: AppColor.kPrimary,
@@ -282,7 +282,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         textColor: AppColor.kGrayscaleDark100,
                         width: 260,
                         onTap: () {
-                          _signInWithGoogle();
+                          signInWithGoogle();
                         },
                         borderRadius: 24,
                         bgColor: AppColor.kBackground.withOpacity(0.3),
@@ -453,13 +453,13 @@ class PasswordTextField extends StatefulWidget {
   final TextEditingController controller;
   final BorderRadiusGeometry borderRadius;
   const PasswordTextField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.height,
     required this.controller,
     required this.width,
     required this.borderRadius,
-  }) : super(key: key);
+  });
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
 }

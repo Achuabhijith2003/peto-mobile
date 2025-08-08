@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:peto/color.dart';
+import 'package:peto/utils/color.dart';
 
 class PrimaryButton extends StatefulWidget {
   final VoidCallback onTap;
@@ -13,7 +13,7 @@ class PrimaryButton extends StatefulWidget {
   final Color? textColor, bgColor;
   final bool? isloading;
   const PrimaryButton({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.text,
     this.width,
@@ -25,7 +25,7 @@ class PrimaryButton extends StatefulWidget {
     required this.bgColor,
     this.iconData,
     this.isloading = false,
-  }) : super(key: key);
+  });
 
   @override
   State<PrimaryButton> createState() => _PrimaryButtonState();

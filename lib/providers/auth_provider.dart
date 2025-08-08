@@ -21,6 +21,11 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> _initAuth() async {
     _auth.authStateChanges().listen((User? user) {
+      if (user == null) {
+        _isNewUser = true;
+      } else {
+        _isNewUser = false;
+      }
       _user = user;
       _isLoading = false;
       notifyListeners();

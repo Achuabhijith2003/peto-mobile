@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:peto/color.dart';
+import 'package:peto/utils/image.dart';
+import 'package:peto/utils/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:peto/image.dart';
 import 'package:peto/screens/auth/loginScreen.dart';
 import 'package:peto/screens/components/button.dart';
 

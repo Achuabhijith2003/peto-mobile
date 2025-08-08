@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peto/color.dart';
+import 'package:peto/utils/color.dart';
 import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/screens/components/button.dart';
 import 'package:provider/provider.dart';
