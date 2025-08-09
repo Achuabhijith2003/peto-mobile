@@ -1,6 +1,7 @@
 class Owner {
   final String id;
-  String name;
+  String firstname;
+  String secondname;
   String email;
   String phone;
   String address;
@@ -8,7 +9,8 @@ class Owner {
 
   Owner({
     required this.id,
-    required this.name,
+    required this.firstname,
+    required this.secondname,
     required this.email,
     this.phone = '',
     this.address = '',
@@ -18,7 +20,8 @@ class Owner {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
+      'firstname': firstname,
+      'secondname': secondname,
       'email': email,
       'phone': phone,
       'address': address,
@@ -29,7 +32,8 @@ class Owner {
   factory Owner.fromMap(Map<String, dynamic> map) {
     return Owner(
       id: map['id'],
-      name: map['name'],
+      firstname: map['firstname'],
+      secondname: map['secondname'],
       email: map['email'],
       phone: map['phone'] ?? '',
       address: map['address'] ?? '',

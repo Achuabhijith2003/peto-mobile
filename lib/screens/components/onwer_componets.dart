@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:peto/models/owner.dart';
 import 'package:peto/utils/color.dart';
 
 class InformationList extends StatelessWidget {
-  const InformationList({super.key});
+  final Owner? owner;
+  const InformationList({super.key, this.owner});
 
   @override
   Widget build(BuildContext context) {
@@ -11,21 +13,21 @@ class InformationList extends StatelessWidget {
         ListTile(
           title: Text("Email"),
           subtitle: Text(
-            "name@example.com",
+            owner?.email ?? 'Not provided',
             style: TextStyle(color: AppColor.kSecondary),
           ),
         ),
         ListTile(
           title: Text("Phone"),
           subtitle: Text(
-            "+123456789",
+            owner?.phone ?? 'Not provided',
             style: TextStyle(color: AppColor.kSecondary),
           ),
         ),
         ListTile(
           title: Text("Address"),
           subtitle: Text(
-            "123 Main St, City, Country",
+            owner?.address ?? 'Not provided',
             style: TextStyle(color: AppColor.kSecondary),
           ),
         ),
