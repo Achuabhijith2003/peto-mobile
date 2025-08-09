@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:peto/utils/color.dart';
 import 'package:peto/utils/image.dart';
-import 'package:peto/screens/dashboard.dart';
-import 'package:peto/screens/owner_profile_screen.dart';
-import 'package:peto/screens/pet_list_screen.dart';
+import 'package:peto/screens/main_screen/dashboard.dart';
+import 'package:peto/screens/main_screen/owner_profile_screen.dart';
+import 'package:peto/screens/main_screen/pet_list_screen.dart';
 
 final Color inActiveIconColor = AppColor.kGrayscale40;
 

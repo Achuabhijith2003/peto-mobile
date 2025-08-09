@@ -11,12 +11,14 @@ class Petlistcomponent extends StatefulWidget {
 class PetlistcomponentState extends State<Petlistcomponent> {
   @override
   Widget build(BuildContext context) {
+    
     return ListView.builder(
       itemCount: 5,
       itemBuilder: (context, index) {
         return ListTile(
+          minLeadingWidth: 65,
           leading: Container(
-            width: 60,
+            width: 70,
             height: 60,
             color: const Color.fromARGB(255, 229, 150, 150),
             child: Image.asset('assets/images/app_logo.png'),

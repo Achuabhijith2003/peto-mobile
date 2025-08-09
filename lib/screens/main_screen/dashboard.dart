@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:peto/providers/auth_provider.dart';
+// import 'package:peto/providers/auth_provider.dart';
 import 'package:peto/providers/internet_provider.dart';
-import 'package:peto/screens/auth/loginScreen.dart';
 import 'package:peto/screens/components/internet_checker.dart';
 import 'package:provider/provider.dart';
 
@@ -36,16 +35,12 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    // final authProvider = Provider.of<AuthProvider>(context);
 
     return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [Row(children: [
+      child: Scaffold(body: Column(children: [Row(children: [
             
-          ],)],
-        ),
-      ),
+          ],)])),
     );
   }
 }
