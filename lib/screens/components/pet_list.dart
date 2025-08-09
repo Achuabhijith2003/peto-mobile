@@ -15,6 +15,11 @@ class Petlistcomponent extends StatefulWidget {
 
 class PetlistcomponentState extends State<Petlistcomponent> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final petProvider = Provider.of<PetProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
