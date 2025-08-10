@@ -16,7 +16,6 @@ class OwnerProfileScreen extends StatefulWidget {
 class _OwnerProfileScreenState extends State<OwnerProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final ownerProvider = Provider.of<OwnerProvider>(context);
     Future<Owner?> ownerProfile = ownerProvider.fetchOwnerProfile();
     if (ownerProvider.isLoading) {
@@ -28,7 +27,9 @@ class _OwnerProfileScreenState extends State<OwnerProfileScreen> {
             future: ownerProfile,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                  child: CircularProgressIndicator(color: AppColor.kPrimary),
+                );
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
@@ -106,7 +107,7 @@ class _OwnerProfileScreenState extends State<OwnerProfileScreen> {
                               ),
                             ],
                           ),
-                          InformationList(owner: owner ),
+                          InformationList(owner: owner),
                         ],
                       ),
                     ),
